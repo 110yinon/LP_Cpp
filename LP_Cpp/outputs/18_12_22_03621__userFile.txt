@@ -1,0 +1,8 @@
+{
+	"DCM" : false,
+	"DataRate" : "5",
+	"RUindex" : 67,
+	"WIFICode" : "1",
+	"nSS" : "3",
+	"sSS" : "4"
+}
