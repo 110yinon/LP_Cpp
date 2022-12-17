@@ -13,6 +13,81 @@ using namespace Json;
 
 namespace fs = std::filesystem;
 
+class GUI {
+public:
+    string directory = "";
+    int filesNum = 0;
+    int choosenFile = NULL;
+    string* arr = NULL;
+    Value jsonData;
+
+
+    GUI(string drctr) {
+        directory = drctr;
+        countFiles();
+        storeFiles();
+    }
+
+    void countFiles() {
+        //int filesNum = 0;
+        for (fs::directory_entry p : fs::directory_iterator(directory)) {
+            filesNum++;
+            //std::cout << p.path().filename() << '\n';
+        }
+        arr = new string[filesNum];
+    }
+
+    void storeFiles() {        
+        int index = 0;
+        for (fs::directory_entry p : fs::directory_iterator(directory)) {
+            arr[index] = p.path().filename().string();
+            index++;
+            /*std::cout << p.path().filename().string() << '\n';*/
+        }
+    }
+
+    void showFiles() {
+        system("cls");
+        cout << "your files:" << endl;
+        for (int i = 0; i < filesNum; i++)
+        {
+            cout << i << "\t" << arr[i] << endl;
+        }
+    }
+    
+    
+    
+    void selectFile() {
+        cout << endl << "choose a file: ";
+        //int choosenFile;
+        cin >> choosenFile;
+        cout << "'" + arr[choosenFile] + "'" << " is choosen." << endl;
+    }
+
+    void showFileContent() {
+        // read the data from json file
+        ifstream myFile("./" + directory + "/"+ arr[choosenFile]);
+        Reader reader;
+
+        // parase the file data to json object
+        reader.parse(myFile, jsonData);              
+
+        // printing the whole json obj (arr of users objs)
+        cout << "\ndata from json file:" << jsonData << endl;
+
+        //printing the amount of user objs in the arr
+        cout << "Total amount of users in this file: " << jsonData.size();
+    }
+    
+    void kuni() {
+        // getting the last user obj from the json arr
+        Value lastUserObj = jsonData[jsonData.size() - 1];
+    }
+    
+
+
+};
+
 int main()
 {
     cout << "LightPoint - a HomeAssignment!\n\n";
@@ -51,10 +126,26 @@ int main()
     string timeStr = day + "_" + month + "_" + year + "_" + hour + min + sec;
 
     // create a file and writing the json user obj to it:
-    ofstream LastUserFile("./outputs/" + timeStr + "__LastUserFile.txt");   
+    /*ofstream LastUserFile("./outputs/" + timeStr + "__LastUserFile.txt");   
     
     LastUserFile << lastUserObj;
-    LastUserFile.close();
+    LastUserFile.close();*/
+
+    GUI *gui = new GUI("myjsonsfiles");
+    cout << gui->filesNum << endl;
+    /*gui->showFiles();
+    gui->selectFile();
+
+    gui->showFileContent();*/
+    /*gui.countFiles();
+    gui.storeFiles();
+    gui.showFiles();*/
+
+    
+
+
+
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
