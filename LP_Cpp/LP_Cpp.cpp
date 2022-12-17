@@ -1,10 +1,12 @@
 // LP_Cpp.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <fstream>
 #include <json/json.h>
 #include <filesystem>
+#include <ctime>
 
 using namespace std;
 using namespace Json;
@@ -34,13 +36,25 @@ int main()
 
     // creating a directory that stores the json files
     fs::create_directory("./outputs");
+       
+    // added time stamp to the last user json file name
+    time_t now = time(0);
+    tm* ltm = localtime(&now);
+
+    string year = to_string(ltm->tm_year - 100);
+    string month = to_string(1 + ltm->tm_mon);
+    string day = to_string(ltm->tm_mday);
+    string hour = to_string(ltm->tm_hour);
+    string min = to_string(ltm->tm_min);
+    string sec = to_string(ltm->tm_sec);
+
+    string timeStr = day + "_" + month + "_" + year + "_" + hour + min + sec;
 
     // create a file and writing the json user obj to it:
-    ofstream LastUserFile("./outputs/LastUserFile.txt");
-
+    ofstream LastUserFile("./outputs/" + timeStr + "__LastUserFile.txt");   
+    
     LastUserFile << lastUserObj;
-    LastUserFile.close();    
-
+    LastUserFile.close();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
