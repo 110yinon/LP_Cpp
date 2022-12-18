@@ -19,7 +19,7 @@ int main()
     cout << "LightPoint - a HomeAssignment!\n\n";
 
     GUI* gui = new GUI("myjsonsfiles");
-           
+      
 
     if (gui->welcome() == 0) return 0;
 	
