@@ -19,8 +19,8 @@ int main()
 
     // read the data from json file
     ifstream myFile("./myjsonsfiles/ruUsers.json");    
-    Value jsonData;
-    Reader reader;
+    Value jsonData; // Value - represents a json value
+    Reader reader; // a class that allows to read json values
 
     // parase the file data to json object
     reader.parse(myFile, jsonData);
